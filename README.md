@@ -6,7 +6,7 @@ Note: The function of this library is currently limited to handling automatic au
 ## Installation
 
 ```
-pip install git+https://github.com/HK-Mattew/python-coinpayments.git@new-api
+pip install git+https://github.com/mattewid/python-coinpayments.git@new-api
 ```
 
 ## Synchronous usage example
