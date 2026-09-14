@@ -1,64 +1,84 @@
-# Sync and AsyncIO CoinPayments Client
+# Synchronous and asynchronous client for coinpayments.net (New API)
 
-Before use, it is advisable to familiarize yourself with the official CoinPayments documentation (https://www.coinpayments.net/apidoc). The application implements the interaction protocol described in this document.
+Before use, it is advisable to familiarize yourself with the official CoinPayments documentation (https://docs.coinpayments.net/api). The application implements the interaction protocol described in this document.
 
+Note: The function of this library is currently limited to handling automatic authentication for requests. That is why it has only one method (`.request`) for making requests.
 ## Installation
 
 ```
-pip install git+https://github.com/HK-Mattew/python-coinpayments.git
+pip install git+https://github.com/HK-Mattew/python-coinpayments.git@new-api
 ```
 
-## Usage example without AsyncIO
+## Synchronous usage example
 
 ```python
-from coinpayments import CoinPayments
+from coinpayments import Client
 
 
-coinp = CoinPayments(
-    public_key='<your-public-key>',
-    private_key='<your-private-key>'
-)
+def main():
 
+    cp = Client(
+        client_id="<your-client-id>",
+        client_secret="<your-client-secret>",
+    )
 
-result = coinp.coinpayments(
-    data={
-        'cmd': 'balances'
-    },
-    method='POST'
+    # Create wallet
+    print(
+        cp.request(
+            method="POST",
+            endpoint="https://a-api.coinpayments.net/api/v2/merchant/wallets",
+            json={"currency": "BTC", "label": "Wallet creation test via API"},
+        )
+    )
+
+    # Get wallets
+    print(
+        cp.request(
+            method="GET",
+            endpoint="https://a-api.coinpayments.net/api/v2/merchant/wallets",
+        )
     )
 
 
-print(result)
+if __name__ == "__main__":
+    main()
+
 ```
 
-## Example of use with AsyncIO
+## Asynchronous usage example
 
 ```python
-from coinpayments import CoinPaymentsAsyncIO
 import asyncio
 
+from coinpayments import AsyncClient
 
 
 async def main():
 
-    coinp = CoinPaymentsAsyncIO(
-        public_key='<your-public-key>',
-        private_key='<your-private-key>'
+    cp = AsyncClient(
+        client_id="<your-client-id>",
+        client_secret="<your-client-secret>",
     )
 
-
-    result = await coinp.coinpayments(
-        data={
-            'cmd': 'balances'
-        },
-        method='POST'
+    # Create wallet
+    print(
+        await cp.request(
+            method="POST",
+            endpoint="https://a-api.coinpayments.net/api/v2/merchant/wallets",
+            json={"currency": "BTC", "label": "Wallet creation test via API"},
         )
+    )
 
-
-    print(result)
-
+    # Get wallets
+    print(
+        await cp.request(
+            method="GET",
+            endpoint="https://a-api.coinpayments.net/api/v2/merchant/wallets",
+        )
+    )
 
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 ```

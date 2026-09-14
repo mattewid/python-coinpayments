@@ -1,2 +1,2 @@
-from .coinpayments_async import CoinPaymentsAsyncIO
-from .coinpayments import CoinPayments
+from .coinpayments import Client
+from .coinpayments_async import AsyncClient
